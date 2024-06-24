@@ -1,8 +1,7 @@
 import { BreadcrumbCustom } from '@/components/ui.custom/Breadcrumb';
 import PaginationCustom from '@/components/ui.custom/Pagination';
 import Wardrobe, { AddCloth, FilterWardrobe } from './components/Wardrobe';
-
-export default () => {
+const WardrobePage = () => {
   return (
     <main className="ml-6">
       <BreadcrumbCustom name="Wardrobe" href="wardrobe" />
@@ -15,3 +14,5 @@ export default () => {
     </main>
   );
 };
+
+export default WardrobePage;

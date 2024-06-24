@@ -1,7 +1,7 @@
 import { BreadcrumbCustom } from '@/components/ui.custom/Breadcrumb';
 import InfiniteScrollSuggestion from './components/InfinityScroll';
 
-export default () => {
+const SuggestionsPage = () => {
   return (
     <main className="ml-6 grid grid-rows-[auto_1fr] h-screen">
       <BreadcrumbCustom name="Suggestion" href="suggestion" />
@@ -11,3 +11,4 @@ export default () => {
     </main>
   );
 };
+export default SuggestionsPage;
