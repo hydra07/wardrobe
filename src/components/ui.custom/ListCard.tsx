@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/EVSYStgDupw
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -18,17 +13,19 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { wardrobeItems, wardrobeTags } from '@/demo/api';
 import { HeartIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import SuggestionCard from "@/app/suggestions/components/Card";
 
 interface ListItemProps {
   name: string;
   button: {
     name: string;
     href: string;
-  };  
+  };
+  card?:React.ReactNode;
 }
 
-export default function ListItem({ button, name }: ListItemProps) {
+export default function ListItem({ button, name,card }: ListItemProps) {
   const [listItems, setListItems] = useState<ItemProps[]>(wardrobeItems);
   const [listTags, setListTags] = useState<string[]>(wardrobeTags);
   const [activeTab, setActiveTab] = useState(listTags[0]);
@@ -61,7 +58,10 @@ export default function ListItem({ button, name }: ListItemProps) {
                 <CarouselItem key={idx}>
                   <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {listItems.slice(idx, idx + 4).map((item, itemIndex) => (
+     card ? card : (
+
                       <Item key={itemIndex} {...item} />
+         )
                     ))}
                   </div>
                 </CarouselItem>

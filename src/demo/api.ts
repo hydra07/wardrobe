@@ -2,119 +2,119 @@ import { ItemProps } from '@/components/ui.custom/ListCard';
 
 export const wardrobeItems: ItemProps[] = [
   {
-    name: 'Áo sơ mi trắng',
+    name: 'White Dress Shirt',
     description:
-      'Áo sơ mi trắng, chất liệu cotton, phù hợp cho công sở và các sự kiện trang trọng.',
+        'White dress shirt, made of cotton, suitable for office and formal events.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/ao-so-mi-trang',
+      name: 'Try Now',
+      href: 'https://example.com/white-dress-shirt',
     },
   },
   {
-    name: 'Quần jeans xanh',
+    name: 'Blue Jeans',
     description:
-      'Quần jeans xanh, thiết kế đơn giản, phù hợp cho mọi hoàn cảnh.',
+        'Blue jeans, simple design, suitable for any occasion.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/quan-jeans-xanh',
+      name: 'Try Now',
+      href: 'https://example.com/blue-jeans',
     },
   },
   {
-    name: 'Áo phông đen',
+    name: 'Black T-shirt',
     description:
-      'Áo phông đen, chất liệu cotton mềm mại, dễ dàng phối với nhiều trang phục khác.',
+        'Black t-shirt, soft cotton material, easy to match with various outfits.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/ao-phong-den',
+      name: 'Try Now',
+      href: 'https://example.com/black-t-shirt',
     },
   },
   {
-    name: 'Quần short kaki',
+    name: 'Beige Shorts',
     description:
-      'Quần short kaki màu be, thoải mái cho các hoạt động ngoài trời.',
+        'Beige shorts, comfortable for outdoor activities.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/quan-short-kaki',
+      name: 'Try Now',
+      href: 'https://example.com/beige-shorts',
     },
   },
   {
-    name: 'Áo khoác da',
-    description: 'Áo khoác da màu đen, phong cách và ấm áp cho mùa đông.',
+    name: 'Black Leather Jacket',
+    description: 'Black leather jacket, stylish and warm for winter.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/ao-khoac-da',
+      name: 'Try Now',
+      href: 'https://example.com/black-leather-jacket',
     },
   },
   {
-    name: 'Quần tây xám',
+    name: 'Gray Dress Pants',
     description:
-      'Quần tây xám, phù hợp cho các buổi họp và sự kiện quan trọng.',
+        'Gray dress pants, suitable for meetings and important events.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/quan-tay-xam',
+      name: 'Try Now',
+      href: 'https://example.com/gray-dress-pants',
     },
   },
   {
-    name: 'Áo len cổ tròn',
-    description: 'Áo len cổ tròn, màu xanh navy, ấm áp cho mùa lạnh.',
+    name: 'Navy Blue Crewneck Sweater',
+    description: 'Navy blue crewneck sweater, warm for cold weather.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/ao-len-co-tron',
+      name: 'Try Now',
+      href: 'https://example.com/navy-blue-crewneck-sweater',
     },
   },
   {
-    name: 'Quần jogger',
+    name: 'Gray Joggers',
     description:
-      'Quần jogger màu xám, thoải mái và phong cách cho việc tập luyện.',
+        'Gray joggers, comfortable and stylish for workouts.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/quan-jogger',
+      name: 'Try Now',
+      href: 'https://example.com/gray-joggers',
     },
   },
   {
-    name: 'Áo vest',
-    description: 'Áo vest màu đen, phù hợp với các bộ suit lịch lãm.',
+    name: 'Black Vest',
+    description: 'Black vest, suitable for elegant suits.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/ao-vest',
+      name: 'Try Now',
+      href: 'https://example.com/black-vest',
     },
   },
   {
-    name: 'Quần cargo',
+    name: 'Khaki Cargo Pants',
     description:
-      'Quần cargo màu xanh rêu, nhiều túi tiện lợi cho các hoạt động ngoài trời.',
+        'Khaki cargo pants, olive green, with many convenient pockets for outdoor activities.',
     button: {
-      name: 'Thử ngay',
-      href: 'https://example.com/quan-cargo',
+      name: 'Try Now',
+      href: 'https://example.com/khaki-cargo-pants',
     },
   },
 ];
 
-export const wardrobeTags = ['Áo', 'Quần', 'Váy', 'Áo khoác'];
+export const wardrobeTags = ['Shirt', 'Jeans', 'Skirt', 'Jacket'];
 
 export const clothing_options: {
   label: string;
   value: string;
   disable?: boolean;
 }[] = [
-  { label: 'Áo sơ mi', value: 'ao-so-mi' },
-  { label: 'Quần jean', value: 'quan-jean' },
-  { label: 'Váy', value: 'vay' },
-  { label: 'Áo khoác', value: 'ao-khoac' },
-  { label: 'Áo thun', value: 'ao-thun' },
-  { label: 'Quần tây', value: 'quan-tay' },
-  { label: 'Đầm', value: 'dam' },
-  { label: 'Áo len', value: 'ao-len' },
-  { label: 'Áo dài', value: 'ao-dai', disable: true },
-  { label: 'Quần short', value: 'quan-short', disable: true },
-  { label: 'Áo blazer', value: 'ao-blazer' },
+  { label: 'Dress Shirt', value: 'dress-shirt' },
+  { label: 'Jeans', value: 'jeans' },
+  { label: 'Skirt', value: 'skirt' },
+  { label: 'Jacket', value: 'jacket' },
+  { label: 'T-shirt', value: 't-shirt' },
+  { label: 'Dress Pants', value: 'dress-pants' },
+  { label: 'Dress', value: 'dress' },
+  { label: 'Sweater', value: 'sweater' },
+  { label: 'Long Dress', value: 'long-dress', disable: true },
+  { label: 'Shorts', value: 'shorts', disable: true },
+  { label: 'Blazer', value: 'blazer' },
 ];
 
 export const listTags: { name: string }[] = [
-  { name: 'Áo Thun' },
-  { name: 'Áo Sơ Mi' },
-  { name: 'Quần Jean' },
-  { name: 'Váy Đầm' },
-  { name: 'Đồ Thể Thao' },
-  { name: 'Phụ Kiện' },
+  { name: 'T-shirt' },
+  { name: 'Dress Shirt' },
+  { name: 'Jeans' },
+  { name: 'Skirts Dresses' },
+  { name: 'Sportswear' },
+  { name: 'Accessories' },
 ];
