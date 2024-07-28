@@ -14,7 +14,6 @@ import { wardrobeItems, wardrobeTags } from '@/demo/api';
 import { HeartIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import SuggestionCard from "@/app/suggestions/components/Card";
 
 interface ListItemProps {
   name: string;
@@ -22,10 +21,10 @@ interface ListItemProps {
     name: string;
     href: string;
   };
-  card?:React.ReactNode;
+  card?: React.ReactNode;
 }
 
-export default function ListItem({ button, name,card }: ListItemProps) {
+export default function ListItem({ button, name, card }: ListItemProps) {
   const [listItems, setListItems] = useState<ItemProps[]>(wardrobeItems);
   const [listTags, setListTags] = useState<string[]>(wardrobeTags);
   const [activeTab, setActiveTab] = useState(listTags[0]);
@@ -38,7 +37,7 @@ export default function ListItem({ button, name,card }: ListItemProps) {
           onValueChange={setActiveTab}
           className="flex gap-4 "
         >
-          <TabsList className="bg-[#fcc8d1]">
+          <TabsList className="bg-mainbackground">
             {listTags.map((tag: string) => (
               <TabsTrigger className="text-[#d14d62]" key={tag} value={tag}>
                 {tag}
@@ -57,12 +56,11 @@ export default function ListItem({ button, name,card }: ListItemProps) {
               idx % 4 === 0 && (
                 <CarouselItem key={idx}>
                   <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {listItems.slice(idx, idx + 4).map((item, itemIndex) => (
-     card ? card : (
-
-                      <Item key={itemIndex} {...item} />
-         )
-                    ))}
+                    {listItems
+                      .slice(idx, idx + 4)
+                      .map((item, itemIndex) =>
+                        card ? card : <Item key={itemIndex} {...item} />,
+                      )}
                   </div>
                 </CarouselItem>
               ),
