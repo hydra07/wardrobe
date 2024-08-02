@@ -39,7 +39,11 @@ export default function ListItem({ button, name, card }: ListItemProps) {
         >
           <TabsList className="bg-mainbackground">
             {listTags.map((tag: string) => (
-              <TabsTrigger className="text-[#d14d62]" key={tag} value={tag}>
+              <TabsTrigger
+                className="text-mainforeground"
+                key={tag}
+                value={tag}
+              >
                 {tag}
               </TabsTrigger>
             ))}

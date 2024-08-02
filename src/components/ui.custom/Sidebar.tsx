@@ -15,7 +15,7 @@ export default function SideBar() {
         <div className="flex h-[60px] items-center border-b px-6">
           <Link
             href="/"
-            className="flex items-center gap-2 font-semibold text-[#d14d62]"
+            className="flex items-center gap-2 font-semibold text-mainforeground"
             prefetch={false}
           >
             <img src="/logo.png" className="w-16 h-16" />

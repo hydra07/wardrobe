@@ -1,3 +1,5 @@
+// 'use server';
+
 import User from '@/models/user.model';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Error } from 'mongoose';
@@ -17,7 +19,7 @@ interface Provider {
 
 interface DecodedToken extends JwtPayload {
   id: string;
-  role: string;
+  role: string[];
 }
 
 export default class AuthService {
@@ -107,6 +109,24 @@ export default class AuthService {
     } catch (error) {
       throw new Error(
         `Refresh token failed!, ${
+          error instanceof Error ? error.message : error
+        }`,
+      );
+    }
+  }
+
+  async verifyToken(
+    token: string,
+  ): Promise<{ userId: string; role: string[] }> {
+    try {
+      const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET as string,
+      ) as DecodedToken;
+      return { userId: decoded.id, role: decoded.role };
+    } catch (error) {
+      throw new Error(
+        `Verify token failed!, ${
           error instanceof Error ? error.message : error
         }`,
       );
