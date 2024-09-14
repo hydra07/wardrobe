@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 const DATABASENAME = process.env.DATABASENAME || 'wardrobe';
-const MONGODB_URI = `mongodb://localhost:27017/${DATABASENAME}`;
+// const MONGODB_URI = `mongodb://localhost:27017/${DATABASENAME}`;
+const MONGODB_URI =
+  (process.env.MONGO_URI as string) ||
+  `mongodb://localhost:27017/${DATABASENAME}`;
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
