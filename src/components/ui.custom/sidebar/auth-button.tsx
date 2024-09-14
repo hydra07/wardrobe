@@ -112,16 +112,16 @@ function AuthenticateForm() {
           <DialogHeader>
             <DialogTitle>Authenticate</DialogTitle>
             <DialogDescription>
-              Đăng nhập để sử dụng các tính năng của Letcook!!
+              Đăng nhập để sử dụng các tính năng của ClothOn!!
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col justify-center space-y-4 ">
-            <Button
+            {/* <Button
               className="bg-indigo-600"
               // onClick={handleDiscordLogin}
             >
               Đăng nhập với Discord
-            </Button>
+            </Button> */}
             <Button className="bg-red-600" onClick={handleGoogleLogin}>
               Đăng nhập với Google
             </Button>

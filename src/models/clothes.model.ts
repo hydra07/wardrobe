@@ -1,8 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
+import Image from './image.model';
 import Tag from './tag.model';
-
-//init tag model
+//init model
 const tag = Tag;
+const image = Image;
 
 const clothesSchema = new Schema(
   {
@@ -22,6 +23,12 @@ const clothesSchema = new Schema(
     description: {
       type: String,
     },
+    images: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Image',
+      },
+    ],
     tags: [
       {
         type: mongoose.Schema.Types.ObjectId,

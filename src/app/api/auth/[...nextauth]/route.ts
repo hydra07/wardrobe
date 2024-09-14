@@ -13,7 +13,7 @@ const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    maxAge: 30 * 24 * 60 * 60 * 60, // 30 days
+    maxAge: 2 * 60 * 60, // 2 giờ
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {

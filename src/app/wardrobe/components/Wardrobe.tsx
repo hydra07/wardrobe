@@ -1,4 +1,6 @@
 'use client';
+import FileUploadDropzone from '@/components/ui.custom/FileUpload';
+import MultipleImage from '@/components/ui.custom/MultipleImage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -9,10 +11,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-
-import FileUploadDropzone from '@/components/ui.custom/FileUpload';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
@@ -23,23 +31,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { listTags } from '@/demo/api';
+import { axiosWithAuth } from '@/libs/axios';
+import { ImageUploadOptions } from '@/libs/hooks/useImageUpload';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import formSchema from './schema';
 import { ListTags, Tags } from './Tags';
-
 function Item({ item }: any) {
   return (
     <Dialog>
       <DialogTrigger>
         <Card className="relative group transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg">
-          <img
-            src="/ao.webp"
-            alt="Product Image"
-            width={300}
-            height={300}
-            className="rounded-lg object-cover w-full aspect-square group-hover:opacity-50 transition-opacity"
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <MultipleImage images={item.images} />
+          </div>
           <CardContent className="py-4">
-            <h3 className="font-semibold tracking-tight">{item.name}</h3>
+            <h3 className="font-semibold tracking-tight">{item.title}</h3>
             <small className="text-sm leading-none text-muted-foreground">
               {item.description}
             </small>
@@ -95,20 +107,81 @@ function Item({ item }: any) {
 }
 
 export default function Wardrobe({}: any) {
+  const { data: session } = useSession();
+  const [clothes, setClothes] = useState([]);
+  useEffect(() => {
+    const fetchClothes = async () => {
+      try {
+        const token = session?.user.accessToken;
+        console.log(token);
+        if (!token) {
+          // throw new Error(
+          //   'Người dùng chưa đăng nhập hoặc không có thông tin phiên',
+          // );
+          return null;
+        }
+        const response = await axiosWithAuth(token).get(
+          `/clothes?skip=${0}&take=${5}`,
+        );
+        if (response.status !== 200) {
+          throw new Error('Không thể lấy danh sách quần áo');
+        }
+        const data = response.data;
+        setClothes(data.clothes);
+      } catch (error) {
+        console.error('Lỗi khi lấy danh sách quần áo:', error);
+      }
+    };
+
+    fetchClothes();
+  }, [session]);
+  if (!session) return null;
+  console.log(clothes);
   return (
     <div className="">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 w-10/12">
-        <Item item={{ name: 'Shirt', description: 'This is a shirt' }} />
-        <Item item={{ name: 'Shirt', description: 'This is a shirt' }} />
-        <Item item={{ name: 'Shirt', description: 'This is a shirt' }} />
-        <Item item={{ name: 'Shirt', description: 'This is a shirt' }} />
-        <Item item={{ name: 'Shirt', description: 'This is a shirt' }} />
+        {Array.isArray(clothes) &&
+          clothes.map((cloth, index) => <Item key={index} item={cloth} />)}
       </div>
     </div>
   );
 }
 
-export function AddCloth() {
+export function ClothForm() {
+  const { data: session } = useSession();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      brand: 'NONAME',
+      description: '',
+      images: [],
+      // tags: [],
+    },
+  });
+
+  const imageOptions: ImageUploadOptions = {
+    type: 'clother',
+    onModel: 'Clothes',
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const token = session?.user.accessToken;
+      if (!token) {
+        throw new Error(
+          'Người dùng chưa đăng nhập hoặc không có thông tin phiên',
+        );
+      }
+      const response = await axiosWithAuth(token).post('/clothes', values);
+      console.log('Success:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  const handleImageUpload = (urls: string[]) => {
+    form.setValue('images', urls);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -119,32 +192,76 @@ export function AddCloth() {
           <DialogHeader>
             <DialogTitle>Add Cloth</DialogTitle>
             <DialogDescription>
-              <form className="flex flex-col space-y-2">
-                <FileUploadDropzone />
-                <div>
-                  <label>Name</label>
-                  <Input
-                    placeholder="Add name for your cloth..."
-                    // value={item.name}
+              <Form {...form}>
+                <form
+                  className="flex flex-col space-y-2"
+                  onSubmit={form.handleSubmit(onSubmit)}
+                >
+                  <FileUploadDropzone
+                    onImageUpload={handleImageUpload}
+                    imageOptions={imageOptions}
                   />
-                </div>
-                <div>
-                  <label>Description</label>
-                  <Textarea
-                    placeholder="Add description for your cloth..."
-                    className="w-full"
-                    // value={item.description}
+
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormDescription>Enter name cloth</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="">
-                  <label>Add tags</label>
-                  <Tags />
-                </div>
-                <div className="flex justify-center items-center space-x-4">
-                  <Button className="bg-green-600">Submit</Button>
-                  <Button variant="destructive">Cancel</Button>
-                </div>
-              </form>
+                  <FormField
+                    control={form.control}
+                    name="brand"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Brand</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormDescription>Enter brand cloth</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            placeholder="Add description for your cloth..."
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Enter Description cloth
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="">
+                    <label>Add tags</label>
+                    <Tags />
+                  </div>
+                  <div className="flex justify-center items-center space-x-4">
+                    <Button className="bg-green-600" type="submit">
+                      Submit
+                    </Button>
+                    <Button variant="destructive">Cancel</Button>
+                  </div>
+                </form>
+              </Form>
             </DialogDescription>
           </DialogHeader>
         </ScrollArea>

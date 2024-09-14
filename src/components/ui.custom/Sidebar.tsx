@@ -1,11 +1,5 @@
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import {
-  BriefcaseIcon,
-  FolderIcon,
-  GlassesIcon,
-  RulerIcon,
-  UserIcon,
-} from 'lucide-react';
+import { BriefcaseIcon, FolderIcon, GlassesIcon, UserIcon } from 'lucide-react';
 import Link from 'next/link';
 import AuthButton from './sidebar/auth-button';
 export default function SideBar() {
@@ -50,14 +44,14 @@ export default function SideBar() {
               <BriefcaseIcon className="h-4 w-4" />
               Wardrobe Management
             </Link>
-            <Link
+            {/* <Link
               href="/sizing"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"
               prefetch={false}
             >
               <RulerIcon className="h-4 w-4" />
               Sizing Guide
-            </Link>
+            </Link> */}
             <Link
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"
