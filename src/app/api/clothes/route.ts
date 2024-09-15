@@ -8,7 +8,8 @@ export const GET = roleRequire(
     const { searchParams } = new URL(req.url);
     const take = Number(searchParams.get('take')); // Ép kiểu thành số
     const skip = Number(searchParams.get('skip')); // Ép kiểu thành số
-
+    const tag = searchParams.get('tag');
+    console.log(tag);
     if (isNaN(take) || isNaN(skip)) {
       return NextResponse.json(
         { status: 400, message: 'Take and Skip must be numbers' },
@@ -23,7 +24,7 @@ export const GET = roleRequire(
       );
     }
 
-    const clothes = await getClothes({ userId }, skip, take);
+    const clothes = await getClothes({ userId, tags: tag }, skip, take);
     return NextResponse.json(
       {
         status: 200,

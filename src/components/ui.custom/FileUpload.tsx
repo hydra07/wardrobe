@@ -12,6 +12,7 @@ import useImageUpload, {
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { DropzoneOptions } from 'react-dropzone';
+import { toast } from 'react-toastify';
 import { Button } from '../ui/button';
 
 interface FileUploadDropzoneProps {
@@ -74,10 +75,12 @@ const FileUploadDropzone = ({
         const imageUrls = uploadedImages.map((image) => image.url);
         console.log('URLs ảnh:', imageUrls);
         onImageUpload(imageUrls);
+        toast.success('Upload image success!');
         return imageUrls;
       }
       return [];
     } catch (error) {
+      toast.error('Upload image failed!');
       console.error('Lỗi khi tải lên ảnh:', error);
       throw error;
     }

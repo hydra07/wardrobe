@@ -4,8 +4,9 @@ import SideBar from '@/components/ui.custom/Sidebar';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -43,6 +44,7 @@ export default function RootLayout({
               <SideBar />
               <div>{children}</div>
             </div>
+            <ToastContainer />
           </ThemeProvider>
         </SessionWrapper>
       </body>

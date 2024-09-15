@@ -8,10 +8,17 @@ const formSchema = z.object({
     message: 'Mô tả phải có ít nhất 10 ký tự.',
   }),
   brand: z.string(),
-  // tags: z.array(z.string()).min(1, {
+  // tags: z.optional(),
+  // .min(1, {
   //   message: 'Phải có ít nhất một thẻ.',
-  // }),
-  images: z.array(z.string().url()).optional(),
+  // })
+  tags: z.array(z.string()).optional(),
+  images: z
+    .array(z.string().url())
+    .min(1, {
+      message: 'Hãy tải ảnh lên',
+    })
+    .optional(),
 });
 
 export default formSchema;

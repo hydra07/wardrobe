@@ -14,7 +14,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,13 +31,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { listTags } from '@/demo/api';
 import { axiosWithAuth } from '@/libs/axios';
 import { ImageUploadOptions } from '@/libs/hooks/useImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as z from 'zod';
 import formSchema from './schema';
 import { ListTags, Tags } from './Tags';
@@ -58,7 +57,7 @@ function Item({ item }: any) {
             <div className="flex items-center justify-between mt-2"></div>
           </CardContent>
           <div className="p-4">
-            <ListTags tags={listTags} />
+            <ListTags tags={item.tags} />
           </div>
         </Card>
       </DialogTrigger>
@@ -68,17 +67,20 @@ function Item({ item }: any) {
             <DialogTitle>Edit cloth</DialogTitle>
             <DialogDescription className="sm:max-w-[425px] h-full max-h-[80vh] flex flex-col">
               <div className="flex flex-col space-y-3">
-                <img
+                {/* <img
                   src="/ao.webp"
                   alt="Product Image"
                   width={200}
                   className="rounded-lg object-cover w-full aspect-square group-hover:opacity-50 transition-opacity"
-                />
+                /> */}
+                <div onClick={(e) => e.stopPropagation()}>
+                  <MultipleImage images={item.images} />
+                </div>
                 <div>
                   <label>Name</label>
                   <Input
                     placeholder="Add name for your cloth..."
-                    value={item.name}
+                    value={item.title}
                   />
                 </div>
                 <div>
@@ -106,12 +108,23 @@ function Item({ item }: any) {
   );
 }
 
-export default function Wardrobe({}: any) {
+export default function Wardrobe({ tag }: any) {
   const { data: session } = useSession();
   const [clothes, setClothes] = useState([]);
   useEffect(() => {
+    console.log(tag);
     const fetchClothes = async () => {
       try {
+        const queryParams = [];
+        if (tag) {
+          queryParams.push(`tag=${tag}`);
+        }
+        // if (page) {
+        //   queryParams.push(`take=${take}`);
+        //   queryParams.push(`skip=${(page - 1) * take}`);
+        // }
+        const queryString =
+          queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
         const token = session?.user.accessToken;
         console.log(token);
         if (!token) {
@@ -121,8 +134,11 @@ export default function Wardrobe({}: any) {
           return null;
         }
         const response = await axiosWithAuth(token).get(
-          `/clothes?skip=${0}&take=${5}`,
+          `/clothes${queryString}`,
         );
+        // const response = await axiosWithAuth(token).get(
+        //   `/clothes?skip=${0}&take=${5}&tag=${tag}`,
+        // );
         if (response.status !== 200) {
           throw new Error('Không thể lấy danh sách quần áo');
         }
@@ -134,7 +150,7 @@ export default function Wardrobe({}: any) {
     };
 
     fetchClothes();
-  }, [session]);
+  }, [session, tag]);
   if (!session) return null;
   console.log(clothes);
   return (
@@ -149,6 +165,7 @@ export default function Wardrobe({}: any) {
 
 export function ClothForm() {
   const { data: session } = useSession();
+  const [tags, setTags] = useState<any[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -156,7 +173,7 @@ export function ClothForm() {
       brand: 'NONAME',
       description: '',
       images: [],
-      // tags: [],
+      tags: [],
     },
   });
 
@@ -174,6 +191,12 @@ export function ClothForm() {
         );
       }
       const response = await axiosWithAuth(token).post('/clothes', values);
+      if (response.status === 200) {
+        toast.success('Success!');
+        console.log('Success:', response.data);
+      } else {
+        toast.error('Failed!');
+      }
       console.log('Success:', response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -181,6 +204,14 @@ export function ClothForm() {
   };
   const handleImageUpload = (urls: string[]) => {
     form.setValue('images', urls);
+  };
+  const handleTagsChange = async (tags: any[]) => {
+    // console.log('tags', tags);
+    form.setValue(
+      'tags',
+      tags.map((tag) => tag.value),
+    );
+    // console.log('tags', form.getValues('tags'));
   };
   return (
     <Dialog>
@@ -197,9 +228,21 @@ export function ClothForm() {
                   className="flex flex-col space-y-2"
                   onSubmit={form.handleSubmit(onSubmit)}
                 >
-                  <FileUploadDropzone
-                    onImageUpload={handleImageUpload}
-                    imageOptions={imageOptions}
+                  <FormField
+                    control={form.control}
+                    name="images"
+                    render={({ field }) => (
+                      <FormItem>
+                        {/* <FormLabel>Images</FormLabel> */}
+                        <FormControl>
+                          <FileUploadDropzone
+                            onImageUpload={handleImageUpload}
+                            imageOptions={imageOptions}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
 
                   <FormField
@@ -211,7 +254,7 @@ export function ClothForm() {
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
-                        <FormDescription>Enter name cloth</FormDescription>
+                        {/* <FormDescription>Enter name cloth</FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -225,7 +268,7 @@ export function ClothForm() {
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
-                        <FormDescription>Enter brand cloth</FormDescription>
+                        {/* <FormDescription>Enter brand cloth</FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -243,17 +286,37 @@ export function ClothForm() {
                             className="w-full"
                           />
                         </FormControl>
-                        <FormDescription>
+                        {/* <FormDescription>
                           Enter Description cloth
-                        </FormDescription>
+                        </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <div className="">
+                  <FormField
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tags</FormLabel>
+                        <FormControl>
+                          {/* <Textarea
+                            {...field}
+                            placeholder="Add description for your cloth..."
+                            className="w-full"
+                          /> */}
+                          <Tags handleChange={handleTagsChange} />
+                        </FormControl>
+                        {/* <FormDescription>
+                          Enter Description cloth
+                        </FormDescription> */}
+                        {/* <FormMessage /> */}
+                      </FormItem>
+                    )}
+                  />
+                  {/* <div className="">
                     <label>Add tags</label>
-                    <Tags />
-                  </div>
+                  </div> */}
                   <div className="flex justify-center items-center space-x-4">
                     <Button className="bg-green-600" type="submit">
                       Submit
