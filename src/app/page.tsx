@@ -1,4 +1,4 @@
-import ListItem from '@/components/ui.custom/ListCard';
+import ListItem, { ListWardrobe } from '@/components/ui.custom/ListCard';
 import TrendingCarousel from '@/components/ui.custom/Trending';
 
 export default function Home() {
@@ -12,13 +12,7 @@ export default function Home() {
         }}
         name="Outfit Suggestions"
       />
-      <ListItem
-        button={{
-          name: 'Wardrobe Management',
-          href: '#',
-        }}
-        name="Wardrobe Management"
-      />
+      <ListWardrobe />
     </main>
   );
 }

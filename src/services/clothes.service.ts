@@ -48,29 +48,27 @@ async function getClothes(
   take?: number,
 ): Promise<InstanceType<typeof Clothes>[]> {
   let query = Clothes.find();
-
   if (options?.userId) {
     query = query.where('userId', options.userId);
   }
-
   if (options?.tags) {
     const tags = await Tag.find({ name: { $in: options.tags.split(',') } });
     const tagIds = tags.map((tag) => tag._id);
-
     query = query.where('tags').in(tagIds);
   }
-
+  if (options?.brand) {
+    query = query
+      .where('brand', options.brand)
+      // .equals(brandFilter.toLowerCase());
+  }
   query = query.populate('tags', 'name');
   query = query.populate('images', 'url');
-
   if (skip) {
     query = query.skip(skip);
   }
-
   if (take) {
     query = query.limit(take);
   }
-
   const clothes = await query;
   return clothes;
 }

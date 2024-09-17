@@ -35,7 +35,7 @@ import { axiosWithAuth } from '@/libs/axios';
 import { ImageUploadOptions } from '@/libs/hooks/useImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as z from 'zod';
@@ -107,8 +107,11 @@ function Item({ item }: any) {
     </Dialog>
   );
 }
-
-export default function Wardrobe({ tag }: any) {
+interface WardrobeProps {
+  tag?: string;
+  listItem?: React.ReactElement;
+}
+export default function Wardrobe({ tag, listItem }: WardrobeProps) {
   const { data: session } = useSession();
   const [clothes, setClothes] = useState([]);
   useEffect(() => {
@@ -155,10 +158,14 @@ export default function Wardrobe({ tag }: any) {
   console.log(clothes);
   return (
     <div className="">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 w-10/12">
-        {Array.isArray(clothes) &&
-          clothes.map((cloth, index) => <Item key={index} item={cloth} />)}
-      </div>
+      {listItem ? (
+        cloneElement(listItem, { clothes })
+      ) : (
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 w-10/12">
+          {Array.isArray(clothes) &&
+            clothes.map((cloth, index) => <Item key={index} item={cloth} />)}
+        </div>
+      )}
     </div>
   );
 }

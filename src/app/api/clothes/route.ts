@@ -6,8 +6,8 @@ export const GET = roleRequire(
   async (req: NextRequest): Promise<NextResponse> => {
     const userId = req.headers.get('x-user-id');
     const { searchParams } = new URL(req.url);
-    const take = Number(searchParams.get('take')); // Ép kiểu thành số
-    const skip = Number(searchParams.get('skip')); // Ép kiểu thành số
+    const take = Number(searchParams.get('take'));
+    const skip = Number(searchParams.get('skip'));
     const tag = searchParams.get('tag');
     console.log(tag);
     if (isNaN(take) || isNaN(skip)) {

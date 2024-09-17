@@ -77,7 +77,7 @@ const InfiniteScrollSuggestion = () => {
         next={next}
         threshold={1}
       >
-        <div className="justify-center">
+        <div className="justify-center w-full">
           {hasMore && (
             <Loader2 className="my-4 h-8 w-8 animate-spin items-center" />
           )}

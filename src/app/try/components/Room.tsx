@@ -105,11 +105,11 @@ export default function Room() {
   };
 
   return (
-    <div className="grid md:grid-cols-[1fr_300px] gap-6 w-full max-w-6xl mx-auto p-4 md:p-6">
+    <div className="grid md:grid-cols-[1fr_400px] gap-8 w-full max-w-7xl mx-auto p-6 md:p-8">
       <div className="flex flex-col gap-4">
         {loading ? (
           <div className="aspect-[4/3] ">
-            <div className="flex flex-col">
+            <div className="flex flex-col space-y-2">
               <div className="flex flex-col h-full space-y-3">
                 <Skeleton className="h-[125px] w-full rounded-xl" />
                 <div className="space-y-2">
