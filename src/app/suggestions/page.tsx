@@ -202,7 +202,7 @@ export function ImageComponent({ images }: any) {
   );
 }
 
-export default function Test() {
+export default function SuggestionsPage() {
   return (
     <main className="ml-6 grid grid-rows-[auto_1fr] h-screen">
       <BreadcrumbCustom name="Suggestion" href="suggestion" />
