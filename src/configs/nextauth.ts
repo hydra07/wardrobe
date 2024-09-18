@@ -5,7 +5,7 @@ import Google from 'next-auth/providers/google';
 const authService = new AuthService();
 
 const authOptions: AuthOptions = {
-  secret: process.env.SECRET,
+  // secret: process.env.SECRET,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,

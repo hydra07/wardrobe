@@ -105,7 +105,7 @@ export default function Room() {
   };
 
   return (
-    <div className="grid md:grid-cols-[1fr_400px] gap-8 w-full max-w-7xl mx-auto p-6 md:p-8">
+    <div className="grid md:grid-cols-[1fr_450px] gap-8 w-full max-w-7xl mx-auto p-6 md:p-8">
       <div className="flex flex-col gap-4">
         {loading ? (
           <div className="aspect-[4/3] ">
