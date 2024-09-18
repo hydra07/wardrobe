@@ -2,17 +2,8 @@
 import Wardrobe from '@/app/wardrobe/components/Wardrobe';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselMainContainer,
-  // CarouselContent,
-  // CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  SliderMainItem,
-} from '@/components/ui/carousel.extras';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { wardrobeItems, wardrobeTags } from '@/demo/api';
+import { wardrobeTags } from '@/demo/api';
 import { HeartIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -134,62 +125,62 @@ export function WardrobeItems({
   );
 }
 
-export default function ListItem({ button, name, card }: ListItemProps) {
-  const [listItems, setListItems] = useState<ItemProps[]>(wardrobeItems);
-  const [listTags, setListTags] = useState<string[]>(wardrobeTags);
-  const [activeTab, setActiveTab] = useState(listTags[0]);
-  return (
-    <div className="w-full mx-auto py-12 px-4 md:px-6 bg-secondary rounded-md">
-      <h2 className="text-3xl font-semibold mb-4">{name}</h2>
-      <div className="flex items-center justify-between mb-6">
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="flex gap-4 "
-        >
-          <TabsList className="bg-mainbackground">
-            {listTags.map((tag: string) => (
-              <TabsTrigger
-                className="text-mainforeground"
-                key={tag}
-                value={tag}
-              >
-                {tag}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-        <Link href={button.href}>
-          <Button variant="outline" size="sm">
-            {button.name}
-          </Button>
-        </Link>
-      </div>
-      <Carousel
-        carouselOptions={{
-          loop: true,
-        }}
-        className="w-full"
-      >
-        <CarouselMainContainer>
-          {/* <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-          {listItems
-            // .slice(idx, idx + 4)
-            .map((item, itemIndex) => (
-              <div key={itemIndex}>
-                <SliderMainItem>
-                  {card ? card : <Item key={itemIndex} {...item} />}
-                </SliderMainItem>
-              </div>
-            ))}
-          {/* </div> */}
-        </CarouselMainContainer>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-    </div>
-  );
-}
+// export default function ListItem({ button, name, card }: ListItemProps) {
+//   const [listItems, setListItems] = useState<ItemProps[]>(wardrobeItems);
+//   const [listTags, setListTags] = useState<string[]>(wardrobeTags);
+//   const [activeTab, setActiveTab] = useState(listTags[0]);
+//   return (
+//     <div className="w-full mx-auto py-12 px-4 md:px-6 bg-secondary rounded-md">
+//       <h2 className="text-3xl font-semibold mb-4">{name}</h2>
+//       <div className="flex items-center justify-between mb-6">
+//         <Tabs
+//           value={activeTab}
+//           onValueChange={setActiveTab}
+//           className="flex gap-4 "
+//         >
+//           <TabsList className="bg-mainbackground">
+//             {listTags.map((tag: string) => (
+//               <TabsTrigger
+//                 className="text-mainforeground"
+//                 key={tag}
+//                 value={tag}
+//               >
+//                 {tag}
+//               </TabsTrigger>
+//             ))}
+//           </TabsList>
+//         </Tabs>
+//         <Link href={button.href}>
+//           <Button variant="outline" size="sm">
+//             {button.name}
+//           </Button>
+//         </Link>
+//       </div>
+//       <Carousel
+//         carouselOptions={{
+//           loop: true,
+//         }}
+//         className="w-full"
+//       >
+//         <CarouselMainContainer>
+//           {/* <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
+//           {listItems
+//             // .slice(idx, idx + 4)
+//             .map((item, itemIndex) => (
+//               <div key={itemIndex}>
+//                 <SliderMainItem>
+//                   {card ? card : <Item key={itemIndex} {...item} />}
+//                 </SliderMainItem>
+//               </div>
+//             ))}
+//           {/* </div> */}
+//         </CarouselMainContainer>
+//         <CarouselPrevious />
+//         <CarouselNext />
+//       </Carousel>
+//     </div>
+//   );
+// }
 
 export interface ItemProps {
   name: string;

@@ -94,7 +94,14 @@ function useImageUpload(options: ImageUploadOptions = {}) {
     } finally {
       setIsUploading(false);
     }
-  }, [filesToUpload, session]);
+  }, [
+    session,
+    session?.user?.accessToken,
+    filesToUpload,
+    options.onModel,
+    options.relatedId,
+    options.type,
+  ]);
 
   const clearUploadedImages = useCallback(() => {
     setUploadedImages([]);
