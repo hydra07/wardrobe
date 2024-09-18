@@ -2,6 +2,7 @@ import { Separator } from '@radix-ui/react-dropdown-menu';
 import { BriefcaseIcon, FolderIcon, GlassesIcon, UserIcon } from 'lucide-react';
 import Link from 'next/link';
 import AuthButton from './sidebar/auth-button';
+import { ThemeMode } from './ThemeMode';
 export default function SideBar() {
   return (
     <div className="hidden border-r bg-mainbackground lg:block">
@@ -53,13 +54,14 @@ export default function SideBar() {
               Sizing Guide
             </Link> */}
             <Link
-              href="#"
+              href="/user"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"
               prefetch={false}
             >
               <UserIcon className="h-4 w-4" />
               Account Management
             </Link>
+            <ThemeMode />
           </nav>
         </div>
       </div>

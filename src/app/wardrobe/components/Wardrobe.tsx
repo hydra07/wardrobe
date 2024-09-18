@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { axiosWithAuth } from '@/libs/axios';
 import { ImageUploadOptions } from '@/libs/hooks/useImageUpload';
@@ -108,12 +109,13 @@ function Item({ item }: any) {
   );
 }
 interface WardrobeProps {
-  tag?: string;
+  tag?: string | null;
   listItem?: React.ReactElement;
 }
 export default function Wardrobe({ tag, listItem }: WardrobeProps) {
   const { data: session } = useSession();
   const [clothes, setClothes] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     console.log(tag);
     const fetchClothes = async () => {
@@ -122,26 +124,16 @@ export default function Wardrobe({ tag, listItem }: WardrobeProps) {
         if (tag) {
           queryParams.push(`tag=${tag}`);
         }
-        // if (page) {
-        //   queryParams.push(`take=${take}`);
-        //   queryParams.push(`skip=${(page - 1) * take}`);
-        // }
         const queryString =
           queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
         const token = session?.user.accessToken;
         console.log(token);
         if (!token) {
-          // throw new Error(
-          //   'Người dùng chưa đăng nhập hoặc không có thông tin phiên',
-          // );
           return null;
         }
         const response = await axiosWithAuth(token).get(
           `/clothes${queryString}`,
         );
-        // const response = await axiosWithAuth(token).get(
-        //   `/clothes?skip=${0}&take=${5}&tag=${tag}`,
-        // );
         if (response.status !== 200) {
           throw new Error('Không thể lấy danh sách quần áo');
         }
@@ -149,16 +141,20 @@ export default function Wardrobe({ tag, listItem }: WardrobeProps) {
         setClothes(data.clothes);
       } catch (error) {
         console.error('Lỗi khi lấy danh sách quần áo:', error);
+      } finally {
+        setLoading(false);
       }
     };
-
+    setLoading(true);
     fetchClothes();
   }, [session, tag]);
   if (!session) return null;
   console.log(clothes);
   return (
     <div className="">
-      {listItem ? (
+      {loading ? (
+        <Skeleton className="h-10 w-full" />
+      ) : listItem ? (
         cloneElement(listItem, { clothes })
       ) : (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 w-10/12">
