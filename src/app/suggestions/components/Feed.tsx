@@ -45,7 +45,7 @@ const listImages = [
   { url: '/ao.webp' },
 ];
 export default function Feed() {
-  const [feef, setFeed] = useState();
+  // const [feef, setFeed] = useState();
   const [currentFeed, setCurrentFeed] = useState(0);
   const feedRefs = useRef<(HTMLDivElement | null)[]>([]);
 

@@ -1,7 +1,7 @@
 import cloudinary from '@/configs/cloudinary';
 import Image from '@/models/image.model';
-import { UploadApiResponse } from 'cloudinary';
 
+import { UploadApiResponse } from 'cloudinary';
 export async function uploadImage(
   file: Express.Multer.File,
   userId: string,
@@ -41,12 +41,11 @@ export async function uploadImage(
   }
 }
 
-
 export async function getImageIds(urls: string | string[]): Promise<string[]> {
   try {
     const urlArray = Array.isArray(urls) ? urls : [urls];
     const images = await Image.find({ url: { $in: urlArray } }).select('_id');
-    return images.map(image => image._id.toString());
+    return images.map((image) => image._id.toString());
   } catch (error) {
     console.error('Lỗi khi lấy ID ảnh:', error);
     throw error;

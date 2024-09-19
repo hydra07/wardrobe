@@ -10,6 +10,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 // import { CarouselContent, CarouselItem } from '../ui/carousel';
 import { axiosWithAuth } from '@/libs/axios';
+import { cn } from '@/libs/utils';
 import { Skeleton } from '../ui/skeleton';
 import MultipleImage from './MultipleImage';
 
@@ -80,7 +81,6 @@ export function WardrobeItems({
   listTags,
   clothes,
 }: any) {
-  // const [listItems, setListItems] = useState<ItemProps[]>(wardrobeItems);
   return (
     <div className="w-full mx-auto py-12 px-4 md:px-6 bg-secondary rounded-md">
       <h2 className="text-3xl font-semibold mb-4">{name}</h2>
@@ -90,7 +90,9 @@ export function WardrobeItems({
           onValueChange={setActiveTab}
           className="flex gap-4 "
         >
-          <TabsList className="bg-mainbackground">
+          <TabsList
+            className={cn(listTags.length === 0 ? '' : 'bg-mainbackground')}
+          >
             {listTags.map((tag: string) => (
               <TabsTrigger
                 className="text-mainforeground"
@@ -109,8 +111,10 @@ export function WardrobeItems({
         </Link>
       </div>
       <div className="flex flex-wrap justify-between">
-        {Array.isArray(clothes) &&
-          clothes.slice(0, 5).map((cloth, index) => (
+        {Array.isArray(clothes) && clothes.length === 0 ? (
+          <div className="text-center">No clothes to show.</div>
+        ) : (
+          clothes.slice(0, 5).map((cloth: any, index: any) => (
             <div key={index} className="flex-1 m-2">
               <Item
                 // key={index}
@@ -119,7 +123,8 @@ export function WardrobeItems({
                 images={cloth.images}
               />
             </div>
-          ))}
+          ))
+        )}
       </div>
     </div>
   );

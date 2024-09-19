@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
+
 const userSchema = new Schema(
   {
     //--provider---
@@ -32,6 +33,19 @@ const userSchema = new Schema(
       required: true,
       default: ['user'],
     },
+    //Photo of user
+    photos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Image',
+      },
+    ],
+    //------premium--------
+    premiumStatus: {
+      isPremium: { type: Boolean, default: false },
+      expiresAt: { type: Date, default: null },
+    },
+    //TODO: add current plant & premium history
   },
   { timestamps: true },
 );

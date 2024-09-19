@@ -1,17 +1,17 @@
 import AuthService from '@/services/auth.service';
+
 import { AuthOptions } from 'next-auth';
 import Google from 'next-auth/providers/google';
-
 const authService = new AuthService();
-
 const authOptions: AuthOptions = {
-  // secret: process.env.SECRET,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  // secret: process.env.SECRET,
   session: {
     maxAge: 2 * 60 * 60, // 2 giờ
   },

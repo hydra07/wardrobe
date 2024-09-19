@@ -11,13 +11,71 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useState } from 'react';
 import ToolBar from './ToolBar';
 
-export function Item({ name, description, action }: any) {
+export const listItems = [
+  {
+    name: 'Casual Shirt',
+    description: 'A comfortable and stylish casual shirt for everyday wear.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Skinny Jeans',
+    description: 'A sleek and modern pair of skinny jeans for a stylish look.',
+    image: '/quan.avif',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+  {
+    name: 'Leather Jacket',
+    description: 'A classic leather jacket that will never go out of style.',
+    image: '/ao.webp',
+  },
+];
+
+export function Item({ name, description, image, action }: any) {
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-0">
         <button onClick={action} className="w-full text-left">
           <img
-            src="/ao.webp"
+            src={image}
             alt="Product thumbnail"
             className="w-full aspect-[4/3] object-cover"
           />
@@ -35,69 +93,57 @@ export function Item({ name, description, action }: any) {
   );
 }
 
-export const listItems = [
-  {
-    name: 'Casual Shirt',
-    description: 'A comfortable and stylish casual shirt for everyday wear.',
-  },
-  {
-    name: 'Skinny Jeans',
-    description: 'A sleek and modern pair of skinny jeans for a stylish look.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-  {
-    name: 'Leather Jacket',
-    description: 'A classic leather jacket that will never go out of style.',
-  },
-];
-export function MainImage() {
+export function MainImage({ item }: any) {
   return (
     <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden">
-      <img
-        src="/ao.webp"
-        alt="Main product image"
-        width={800}
-        height={600}
-        className="object-cover w-full h-full"
-      />
+      {item ? (
+        <img
+          src={item.image}
+          alt="Main product image"
+          width={800}
+          height={600}
+          className="object-cover w-full h-full"
+        />
+      ) : (
+        <p>No item selected</p>
+      )}
+    </div>
+  );
+}
+
+export function TryOnLoading() {
+  return (
+    <div className="aspect-[4/3] ">
+      <div className="flex flex-col space-y-2">
+        <div className="flex flex-col h-full space-y-3">
+          <Skeleton className="h-[125px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-4/5" />
+          </div>
+        </div>
+        <div className="flex flex-col h-full space-y-3">
+          <Skeleton className="h-[125px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-4/5" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function Room() {
   const [loading, setLoading] = useState(false);
-  const handleAddItem = () => {
+  const [selectedItem, setSelectedItem] = useState<{
+    name: string;
+    description: string;
+    image: string;
+  } | null>(null);
+
+  const handleAddItem = (item: any) => {
+    setSelectedItem(item);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -107,28 +153,7 @@ export default function Room() {
   return (
     <div className="grid md:grid-cols-[1fr_450px] gap-8 w-full max-w-7xl mx-auto p-6 md:p-8">
       <div className="flex flex-col gap-4">
-        {loading ? (
-          <div className="aspect-[4/3] ">
-            <div className="flex flex-col space-y-2">
-              <div className="flex flex-col h-full space-y-3">
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-4/5" />
-                </div>
-              </div>
-              <div className="flex flex-col h-full space-y-3">
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-4/5" />
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <MainImage />
-        )}
+        {loading ? <TryOnLoading /> : <MainImage item={selectedItem} />}
         <div className="w-full">
           <Carousel>
             <CarouselContent>
@@ -142,7 +167,7 @@ export default function Room() {
                           .map((item, itemIndex) => (
                             <Item
                               key={itemIndex}
-                              action={handleAddItem}
+                              action={() => handleAddItem(item)}
                               {...item}
                             />
                           ))}
