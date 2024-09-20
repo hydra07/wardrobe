@@ -13,7 +13,7 @@ export default function PremiumPlans() {
   const plans = [
     {
       name: 'Free',
-      price: '$0/month',
+      price: '0 đ/month',
       features: [
         { name: 'Basic access', included: true },
         { name: 'Limited storage', included: true },
@@ -24,7 +24,7 @@ export default function PremiumPlans() {
     },
     {
       name: 'Premium',
-      price: '$19.99/month',
+      price: '59.000 đ/month',
       features: [
         { name: 'Full access', included: true },
         { name: 'Unlimited storage', included: true },
