@@ -123,7 +123,7 @@ export const feedItems = [
     title: 'White Dress Shirt',
     content: 'This is the first feed item',
     description:
-      'Welcome the season of renewal with our Fresh Spring Breeze Look, a perfect ensemble that captures the essence of spring with its vibrant colors and lightweight fabrics.',
+      'Welcome the season of renewal with our Fresh Spring Breeze Look, a perfect ensemble that captures the essence of spring with vibrant colors and lightweight fabrics.',
     listItem: [
       {
         name: 'Leather Jacket',
@@ -134,7 +134,7 @@ export const feedItems = [
       {
         name: 'Denim Jacket',
         description: 'Stylish and versatile for any casual outfit.',
-        image: '/ao-khoac.jpg',
+        image: '/anh1.jpg',
       },
     ],
   },
@@ -153,12 +153,12 @@ export const feedItems = [
       {
         name: 'Black Hoodie',
         description: 'A staple for your winter wardrobe.',
-        image: '/ao-den.jpg',
+        image: '/anh2.jpg',
       },
       {
         name: 'White Hoodie',
         description: 'Lightweight and comfortable.',
-        image: '/ao.webp',
+        image: '/anh3.jpg',
       },
     ],
   },
@@ -176,7 +176,12 @@ export const feedItems = [
       {
         name: 'Brown Leather Jacket',
         description: 'Classic design with a modern twist.',
-        image: '/ao.webp',
+        image: '/anh4.jpg',
+      },
+      {
+        name: 'Casual Jacket',
+        description: 'Light and perfect for casual outings.',
+        image: '/anh5.jpg',
       },
     ],
   },
@@ -194,12 +199,7 @@ export const feedItems = [
       {
         name: 'Black Jeans',
         description: 'A versatile choice for any outfit.',
-        image: '/ao-khoac.jpg',
-      },
-      {
-        name: 'Slim Fit Jeans',
-        description: 'Fashionable and comfortable.',
-        image: '/ao.webp',
+        image: '/anh6.jpg',
       },
     ],
   },
@@ -217,7 +217,12 @@ export const feedItems = [
       {
         name: 'Navy Polo',
         description: 'Stylish and comfortable for outings.',
-        image: '/ao-xam.jpg',
+        image: '/anh1.jpg',
+      },
+      {
+        name: 'Striped Polo',
+        description: 'A stylish option for summer days.',
+        image: '/anh2.jpg',
       },
     ],
   },
@@ -235,17 +240,12 @@ export const feedItems = [
       {
         name: 'Trench Coat',
         description: 'Elegant and perfect for layering.',
-        image: '/ao.webp',
+        image: '/anh3.jpg',
       },
       {
         name: 'Faux Fur Coat',
         description: 'Luxurious and warm.',
-        image: '/ao-xam.jpg',
-      },
-      {
-        name: 'Overcoat',
-        description: 'Sophisticated and stylish for formal occasions.',
-        image: '/ao-den.jpg',
+        image: '/anh4.jpg',
       },
     ],
   },
@@ -263,7 +263,7 @@ export const feedItems = [
       {
         name: 'Gray Formal Trousers',
         description: 'Perfect for business meetings.',
-        image: '/ao-khoac.jpg',
+        image: '/anh5.jpg',
       },
     ],
   },
@@ -281,148 +281,53 @@ export const feedItems = [
       {
         name: 'Dark Denim Shirt',
         description: 'Stylish and perfect for layering.',
-        image: '/ao.webp',
+        image: '/anh6.jpg',
       },
     ],
   },
   {
     id: 9,
-    title: 'Black T-Shirt',
+    title: 'Casual Shorts',
     content: 'This is the ninth feed item',
-    description: 'A must-have for every wardrobe.',
+    description: 'Stay cool and comfortable with our casual shorts.',
     listItem: [
       {
-        name: 'Basic Black T-Shirt',
-        description: 'Simple yet stylish for everyday wear.',
-        image: '/ao.webp',
+        name: 'Khaki Shorts',
+        description: 'Perfect for summer adventures.',
+        image: '/anh1.jpg',
       },
       {
-        name: 'Graphic Black T-Shirt',
-        description: 'Express your style with a graphic tee.',
-        image: '/ao-xam.jpg',
+        name: 'Denim Shorts',
+        description: 'Comfortable and trendy for casual wear.',
+        image: '/anh2.jpg',
       },
       {
-        name: 'Long Sleeve Black T-Shirt',
-        description: 'Comfortable and versatile for cooler days.',
-        image: '/ao-den.jpg',
+        name: 'Black Shorts',
+        description: 'Versatile for any occasion.',
+        image: '/anh3.jpg',
       },
     ],
   },
   {
     id: 10,
-    title: 'Chino Pants',
+    title: 'Plaid Shirt',
     content: 'This is the tenth feed item',
-    description: 'Comfortable alternative to jeans.',
+    description: 'Add a rustic charm to your wardrobe with a plaid shirt.',
     listItem: [
       {
-        name: 'Beige Chino Pants',
-        description: 'Smart casual look for various occasions.',
-        image: '/quan.avif',
+        name: 'Red Plaid Shirt',
+        description: 'Perfect for outdoor events.',
+        image: '/anh4.jpg',
       },
       {
-        name: 'Navy Chino Pants',
-        description: 'Versatile and comfortable for any setting.',
-        image: '/ao-khoac.jpg',
-      },
-    ],
-  },
-  {
-    id: 11,
-    title: 'White Sneakers',
-    content: 'This is the eleventh feed item',
-    description: 'Perfect for a casual day out.',
-    listItem: [
-      {
-        name: 'Classic White Sneakers',
-        description: 'Comfortable and stylish footwear.',
-        image: '/ao.webp',
+        name: 'Green Plaid Shirt',
+        description: 'A classic style for any occasion.',
+        image: '/anh5.jpg',
       },
       {
-        name: 'Sporty White Sneakers',
-        description: 'Ideal for active days.',
-        image: '/ao-xam.jpg',
-      },
-    ],
-  },
-  {
-    id: 12,
-    title: 'Floral Dress',
-    content: 'This is the twelfth feed item',
-    description: 'Embrace the floral trend this season.',
-    listItem: [
-      {
-        name: 'Red Floral Dress',
-        description: 'Lightweight and perfect for summer.',
-        image: '/ao-xam.jpg',
-      },
-      {
-        name: 'Blue Floral Dress',
-        description: 'Stylish and comfortable for warm days.',
-        image: '/ao.webp',
-      },
-      {
-        name: 'Pink Floral Dress',
-        description: 'Bright and cheerful for sunny days.',
-        image: '/ao-den.jpg',
-      },
-    ],
-  },
-  {
-    id: 13,
-    title: 'Cargo Shorts',
-    content: 'This is the thirteenth feed item',
-    description: 'Stylish and functional for summer outings.',
-    listItem: [
-      {
-        name: 'Khaki Cargo Shorts',
-        description: 'Great for casual wear with ample pockets.',
-        image: '/quan.avif',
-      },
-      {
-        name: 'Navy Cargo Shorts',
-        description: 'Perfect for summer adventures.',
-        image: '/ao-khoac.jpg',
-      },
-    ],
-  },
-  {
-    id: 14,
-    title: 'Athletic Wear',
-    content: 'This is the fourteenth feed item',
-    description: 'Comfortable and stylish for your workouts.',
-    listItem: [
-      {
-        name: 'Athletic Shirt',
-        description: 'Breathable fabric for active days.',
-        image: '/ao.webp',
-      },
-      {
-        name: 'Athletic Shorts',
-        description: 'Perfect for training and outdoor activities.',
-        image: '/quan.avif',
-      },
-    ],
-  },
-  {
-    id: 15,
-    title: 'Beachwear',
-    content: 'This is the fifteenth feed item',
-    description: 'Get ready for your next beach day.',
-    listItem: [
-      {
-        name: 'Swim Trunks',
-        description: 'Quick-drying and comfortable for the beach.',
-        image: '/ao-xam.jpg',
-      },
-      {
-        name: 'Beach Cover-Up',
-        description: 'Lightweight and stylish for your beach outings.',
-        image: '/ao.webp',
-      },
-      {
-        name: 'Flip Flops',
-        description: 'Essential footwear for the beach.',
-        image: '/ao-den.jpg',
+        name: 'Blue Plaid Shirt',
+        description: 'Add color and style to your look.',
+        image: '/anh6.jpg',
       },
     ],
   },

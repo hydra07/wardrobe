@@ -101,9 +101,10 @@ export const useTryOnDiffusion = () => {
         model_image: modelImage,
         cloth_image: clothImage,
         category: params.category,
+        num_inference_steps: params.numInferenceSteps || 40,
         // num_inference_steps: params.numInferenceSteps || 25,
-        // guidance_scale: params.guidanceScale || 2,
-        // seed: params.seed || -1,
+        guidance_scale: params.guidanceScale || 3.75,
+        seed: params.seed || 12467,
         base64: params.base64 !== undefined ? params.base64 : true,
       };
       console.log(data);
