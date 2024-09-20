@@ -1,6 +1,32 @@
 import roleRequire from '@/configs/middleware';
-import { updateUserProfile } from '@/services/user.service';
+import { getUser, updateUserProfile } from '@/services/user.service';
 import { NextRequest, NextResponse } from 'next/server';
+
+export const GET = roleRequire(
+  async (req: NextRequest): Promise<NextResponse> => {
+    const userId = req.headers.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json(
+        { status: 400, message: 'User ID is required' },
+        { status: 400 },
+      );
+    }
+    const user = await getUser(userId);
+    return NextResponse.json(
+      {
+        status: 200,
+        user: {
+          username: user?.username,
+          image: user?.avatar,
+          photos: user?.photos,
+        },
+      },
+      {
+        status: 200,
+      },
+    );
+  },
+);
 
 export const PATCH = roleRequire(
   async (req: NextRequest): Promise<NextResponse> => {

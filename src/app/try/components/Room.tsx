@@ -8,10 +8,13 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState } from 'react';
+import { axiosWithAuth } from '@/libs/axios';
+import useAuth from '@/libs/hooks/useAuth';
+import { useSuggestion } from '@/libs/hooks/useSuggestion';
+import { useEffect, useState } from 'react';
 import ToolBar from './ToolBar';
 
-export const listItems = [
+export const defaultList = [
   {
     name: 'Casual Shirt',
     description: 'A comfortable and stylish casual shirt for everyday wear.',
@@ -69,16 +72,24 @@ export const listItems = [
   },
 ];
 
-export function Item({ name, description, image, action }: any) {
+export function Item({ name, description, image, listImage, action }: any) {
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-0">
         <button onClick={action} className="w-full text-left">
-          <img
-            src={image}
-            alt="Product thumbnail"
-            className="w-full aspect-[4/3] object-cover"
-          />
+          {Array.isArray(listImage) ? (
+            <img
+              src={listImage[0].url}
+              alt="Product thumbnail"
+              className="w-full aspect-[4/3] object-cover"
+            />
+          ) : (
+            <img
+              src={image}
+              alt="Product thumbnail"
+              className="w-full aspect-[4/3] object-cover"
+            />
+          )}
           <div className="p-3 bg-muted">
             <h3 className="font-medium text-sm truncate">{name}</h3>
             {description && (
@@ -102,7 +113,7 @@ export function MainImage({ item }: any) {
           alt="Main product image"
           width={800}
           height={600}
-          className="object-cover w-full h-full"
+          className="object-contain w-full h-full"
         />
       ) : (
         <p>No item selected</p>
@@ -141,48 +152,139 @@ export default function Room() {
     description: string;
     image: string;
   } | null>(null);
-
-  const handleAddItem = (item: any) => {
+  const [isSuggestion, setIsSuggestion] = useState<boolean>(true);
+  const { selectedFeed, setSelectedFeed } = useSuggestion();
+  const [feed, setFeed] = useState(selectedFeed);
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const { user, status } = useAuth();
+  const [listCloth, setListCloth] = useState<any>([]);
+  const [result, setResult] = useState<any>(null);
+  // setSelectedFeed(null);
+  const handleSelect = (item: any) => {
     setSelectedItem(item);
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    setResult(null);
+    // setLoading(true);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
   };
 
+  useEffect(() => {
+    // setFeed(selectedFeed);
+    setSelectedFeed(null);
+  }, [feed]);
+
+  useEffect(() => {
+    // console.log(user, status);
+    const fetchUserProfile = async () => {
+      if (user) {
+        const res = await axiosWithAuth(user.accessToken).get('/user');
+        setUserProfile(res.data.user);
+        console.log('user', res.data.user);
+      }
+    };
+    fetchUserProfile();
+    // console.log('userProfile', userProfile);
+  }, [status]);
+
+  useEffect(() => {
+    const fetchListCloth = async () => {
+      if (user) {
+        const res = await axiosWithAuth(user.accessToken).get(`/clothes`);
+        setListCloth(res.data.clothes);
+      }
+    };
+    fetchListCloth();
+  }, [status]);
+  // console.log(selectedItem);
+  // console.log('listCloth', listCloth);
+  // console.log(userProfile);
   return (
-    <div className="grid md:grid-cols-[1fr_450px] gap-8 w-full max-w-7xl mx-auto p-6 md:p-8">
-      <div className="flex flex-col gap-4">
-        {loading ? <TryOnLoading /> : <MainImage item={selectedItem} />}
-        <div className="w-full">
-          <Carousel>
-            <CarouselContent>
-              {listItems.map(
-                (_, idx) =>
-                  idx % 4 === 0 && (
-                    <CarouselItem key={idx}>
-                      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {listItems
-                          .slice(idx, idx + 4)
-                          .map((item, itemIndex) => (
-                            <Item
-                              key={itemIndex}
-                              action={() => handleAddItem(item)}
-                              {...item}
-                            />
-                          ))}
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid lg:grid-cols-[1fr_700px] gap-8">
+        <div className="space-y-8">
+          <div className=" rounded-lg shadow-md overflow-hidden">
+            {loading ? (
+              <TryOnLoading />
+            ) : (
+              <MainImage
+                item={
+                  result
+                    ? { image: `data:image/png;base64,${result.image}` }
+                    : selectedItem
+                }
+              />
+            )}
+          </div>
+
+          <div className=" rounded-lg shadow-md p-4">
+            <Carousel className="w-full">
+              <CarouselContent>
+                {isSuggestion ? (
+                  feed ? (
+                    <CarouselItem>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {feed.listItem.map((item: any, itemIndex: any) => (
+                          <Item
+                            key={itemIndex}
+                            action={() => handleSelect(item)}
+                            {...item}
+                          />
+                        ))}
                       </div>
                     </CarouselItem>
-                  ),
-              )}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+                  ) : (
+                    defaultList.map(
+                      (_, idx) =>
+                        idx % 4 === 0 && (
+                          <CarouselItem key={idx}>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                              {defaultList
+                                .slice(idx, idx + 4)
+                                .map((item, itemIndex) => (
+                                  <Item
+                                    key={itemIndex}
+                                    action={() => handleSelect(item)}
+                                    {...item}
+                                  />
+                                ))}
+                            </div>
+                          </CarouselItem>
+                        ),
+                    )
+                  )
+                ) : (
+                  <CarouselItem>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {listCloth.map((item: any, itemIndex: any) => (
+                        <Item
+                          key={itemIndex}
+                          action={() => handleSelect(item)}
+                          name={item.name}
+                          description={item.description}
+                          listImage={item.images}
+                        />
+                      ))}
+                    </div>
+                  </CarouselItem>
+                )}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+          </div>
         </div>
-      </div>
-      <div className="grid gap-4">
-        <ToolBar />
+
+        <div className="lg:sticky lg:top-4 lg:self-start">
+          <ToolBar
+            isSuggestion={isSuggestion}
+            setIsSuggestion={setIsSuggestion}
+            user={userProfile}
+            clothImage={selectedItem?.image}
+            setLoading={setLoading}
+            setResult={setResult}
+          />
+        </div>
       </div>
     </div>
   );

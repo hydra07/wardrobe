@@ -46,59 +46,67 @@ function Item({ item }: any) {
   return (
     <Dialog>
       <DialogTrigger>
-        <Card className="relative group transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg">
-          <div onClick={(e) => e.stopPropagation()}>
+        <Card className="relative group transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg overflow-hidden">
+          <div onClick={(e) => e.stopPropagation()} className="aspect-square">
             <MultipleImage images={item.images} />
           </div>
           <CardContent className="py-4">
-            <h3 className="font-semibold tracking-tight">{item.title}</h3>
-            <small className="text-sm leading-none text-muted-foreground">
+            <h3 className="font-semibold tracking-tight text-lg mb-2">
+              {item.title}
+            </h3>
+            <p className="text-sm leading-relaxed text-gray-600 line-clamp-2">
               {item.description}
-            </small>
-            <div className="flex items-center justify-between mt-2"></div>
+            </p>
           </CardContent>
           <div className="p-4">
             <ListTags tags={item.tags} />
           </div>
         </Card>
       </DialogTrigger>
-      <DialogContent>
-        <ScrollArea className="w-full overflow-y-auto rounded-md">
+      <DialogContent className="sm:max-w-[425px]">
+        <ScrollArea className="w-full overflow-y-auto rounded-md max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle>Edit cloth</DialogTitle>
-            <DialogDescription className="sm:max-w-[425px] h-full max-h-[80vh] flex flex-col">
-              <div className="flex flex-col space-y-3">
-                {/* <img
-                  src="/ao.webp"
-                  alt="Product Image"
-                  width={200}
-                  className="rounded-lg object-cover w-full aspect-square group-hover:opacity-50 transition-opacity"
-                /> */}
-                <div onClick={(e) => e.stopPropagation()}>
-                  <MultipleImage images={item.images} />
-                </div>
+            <DialogTitle className="text-2xl font-bold mb-4">
+              Edit cloth
+            </DialogTitle>
+            <DialogDescription className="space-y-6">
+              <div onClick={(e) => e.stopPropagation()} className="mb-4">
+                <MultipleImage images={item.images} />
+              </div>
+              <div className="space-y-4">
                 <div>
-                  <label>Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Name
+                  </label>
                   <Input
                     placeholder="Add name for your cloth..."
                     value={item.title}
+                    className="w-full"
                   />
                 </div>
                 <div>
-                  <label>Description</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Description
+                  </label>
                   <Textarea
                     placeholder="Add description for your cloth..."
-                    className="w-full"
+                    className="w-full min-h-[100px]"
                     value={item.description}
                   />
                 </div>
-                <div className="">
-                  <label>Add tags</label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Add tags
+                  </label>
                   <Tags />
                 </div>
-                <div className="flex justify-center items-center space-x-4">
-                  <Button className="bg-green-600">Submit</Button>
-                  <Button variant="destructive">Cancel</Button>
+                <div className="flex justify-center items-center space-x-4 pt-4">
+                  <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2">
+                    Submit
+                  </Button>
+                  <Button variant="destructive" className="px-6 py-2">
+                    Cancel
+                  </Button>
                 </div>
               </div>
             </DialogDescription>
@@ -219,16 +227,20 @@ export function ClothForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="">Add Cloth</Button>
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">
+          Add Cloth
+        </Button>
       </DialogTrigger>
-      <DialogContent>
-        <ScrollArea className="w-full overflow-y-auto rounded-md">
+      <DialogContent className="sm:max-w-[500px]">
+        <ScrollArea className="w-full overflow-y-auto rounded-md max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle>Add Cloth</DialogTitle>
+            <DialogTitle className="text-2xl font-bold mb-4">
+              Add Cloth
+            </DialogTitle>
             <DialogDescription>
               <Form {...form}>
                 <form
-                  className="flex flex-col space-y-2"
+                  className="space-y-6"
                   onSubmit={form.handleSubmit(onSubmit)}
                 >
                   <FormField
@@ -236,7 +248,6 @@ export function ClothForm() {
                     name="images"
                     render={({ field }) => (
                       <FormItem>
-                        {/* <FormLabel>Images</FormLabel> */}
                         <FormControl>
                           <FileUploadDropzone
                             onImageUpload={handleImageUpload}
@@ -253,78 +264,78 @@ export function ClothForm() {
                     name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Title</FormLabel>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Title
+                        </FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} className="w-full" />
                         </FormControl>
-                        {/* <FormDescription>Enter name cloth</FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="brand"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Brand</FormLabel>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Brand
+                        </FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} className="w-full" />
                         </FormControl>
-                        {/* <FormDescription>Enter brand cloth</FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Description</FormLabel>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Description
+                        </FormLabel>
                         <FormControl>
                           <Textarea
                             {...field}
                             placeholder="Add description for your cloth..."
-                            className="w-full"
+                            className="w-full min-h-[100px]"
                           />
                         </FormControl>
-                        {/* <FormDescription>
-                          Enter Description cloth
-                        </FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="tags"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tags</FormLabel>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Tags
+                        </FormLabel>
                         <FormControl>
-                          {/* <Textarea
-                            {...field}
-                            placeholder="Add description for your cloth..."
-                            className="w-full"
-                          /> */}
                           <Tags handleChange={handleTagsChange} />
                         </FormControl>
-                        {/* <FormDescription>
-                          Enter Description cloth
-                        </FormDescription> */}
-                        {/* <FormMessage /> */}
                       </FormItem>
                     )}
                   />
-                  {/* <div className="">
-                    <label>Add tags</label>
-                  </div> */}
-                  <div className="flex justify-center items-center space-x-4">
-                    <Button className="bg-green-600" type="submit">
+
+                  <div className="flex justify-center items-center space-x-4 pt-4">
+                    <Button
+                      className="bg-green-600 hover:bg-green-700 text-white px-6 py-2"
+                      type="submit"
+                    >
                       Submit
                     </Button>
-                    <Button variant="destructive">Cancel</Button>
+                    <Button variant="destructive" className="px-6 py-2">
+                      Cancel
+                    </Button>
                   </div>
                 </form>
               </Form>
@@ -339,10 +350,11 @@ export function ClothForm() {
 export function FilterWardrobe() {
   return (
     <>
-      <div className="w-3/5 mb-5 flex flex-row space-x-3">
-        <h2 className="text-xl font-semibold">Filter Wardrobe</h2>
+      {/* <div className="w-full max-w-3xl mx-auto mb-8"> */}
+      <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+        <h2 className="text-2xl font-semibold">Filter Wardrobe</h2>
         <Select defaultValue="name">
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Select sort by.." />
           </SelectTrigger>
           <SelectContent>
@@ -355,6 +367,7 @@ export function FilterWardrobe() {
           </SelectContent>
         </Select>
       </div>
+    {/* </div> */}
     </>
   );
 }

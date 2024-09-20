@@ -55,18 +55,20 @@ export function ListWardrobe() {
       {loading ? ( // Hiển thị skeleton khi loading
         <Skeleton className="h-10 w-full" />
       ) : (
-        <Wardrobe
-          listItem={
-            <WardrobeItems
-              button={{ name: 'Wardrobe', href: '/wardrobe' }}
-              name="Wardrobe"
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              listTags={listTags}
-            />
-          }
-          tag={activeTab}
-        />
+        <div className="max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <Wardrobe
+            listItem={
+              <WardrobeItems
+                button={{ name: 'Wardrobe', href: '/wardrobe' }}
+                name="Wardrobe"
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                listTags={listTags}
+              />
+            }
+            tag={activeTab}
+          />
+        </div>
       )}
     </>
   );
@@ -82,50 +84,52 @@ export function WardrobeItems({
   clothes,
 }: any) {
   return (
-    <div className="w-full mx-auto py-12 px-4 md:px-6 bg-secondary rounded-md">
-      <h2 className="text-3xl font-semibold mb-4">{name}</h2>
+    <div className="w-full h-full mx-auto py-8 px-4 md:px-6 bg-secondary rounded-lg shadow-md">
       <div className="flex items-center justify-between mb-6">
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="flex gap-4 "
-        >
-          <TabsList
-            className={cn(listTags.length === 0 ? '' : 'bg-mainbackground')}
-          >
-            {listTags.map((tag: string) => (
-              <TabsTrigger
-                className="text-mainforeground"
-                key={tag}
-                value={tag}
-              >
-                {tag}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        <h2 className="text-2xl md:text-3xl font-semibold">{name}</h2>
         <Link href={button.href}>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="hidden sm:inline-flex">
             {button.name}
           </Button>
         </Link>
       </div>
-      <div className="flex flex-wrap justify-between">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
+        <TabsList
+          className={cn(
+            'bg-background/50 p-1',
+            listTags.length === 0 ? 'hidden' : '',
+          )}
+        >
+          {listTags.map((tag: string) => (
+            <TabsTrigger key={tag} value={tag} className="text-sm md:text-base">
+              {tag}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {Array.isArray(clothes) && clothes.length === 0 ? (
-          <div className="text-center">No clothes to show.</div>
+          <div className="col-span-full text-center py-8 text-muted-foreground">
+            No clothes to show.
+          </div>
         ) : (
-          clothes.slice(0, 5).map((cloth: any, index: any) => (
-            <div key={index} className="flex-1 m-2">
+          clothes
+            .slice(0, 5)
+            .map((cloth: any, index: number) => (
               <Item
-                // key={index}
+                key={index}
                 name={cloth.title}
                 description={cloth.description}
                 images={cloth.images}
               />
-            </div>
-          ))
+            ))
         )}
       </div>
+      <Link href={button.href} className="mt-6 block sm:hidden">
+        <Button variant="outline" size="sm" className="w-full">
+          {button.name}
+        </Button>
+      </Link>
     </div>
   );
 }
@@ -199,20 +203,23 @@ export interface ItemProps {
 
 export const Item = ({ name, description, button, images }: ItemProps) => {
   return (
-    <Card className="flex flex-col h-full relative group transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg">
-      <div onClick={(e) => e.stopPropagation()} className="flex-shrink-0">
+    <Card className="flex flex-col h-full relative group transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex-shrink-0 overflow-hidden rounded-t-lg"
+      >
         <MultipleImage images={images} />
       </div>
-      <CardContent className="flex flex-col flex-grow py-4">
-        <h3 className="font-semibold tracking-tight">{name}</h3>
-        <small className="text-sm leading-none text-muted-foreground flex-grow">
+      <CardContent className="flex flex-col flex-grow p-4">
+        <h3 className="font-semibold text-lg mb-2 line-clamp-1">{name}</h3>
+        <small className="text-sm text-muted-foreground flex-grow line-clamp-2 mb-4">
           {description}
         </small>
-        <div className="flex items-center justify-between mt-2">
-          <Button size="sm" className="mt-4">
+        <div className="flex items-center justify-between mt-auto">
+          <Button size="sm" className="w-2/3">
             {button?.name || 'View'}
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="hover:bg-secondary">
             <HeartIcon className="w-5 h-5" />
           </Button>
         </div>

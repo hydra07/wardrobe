@@ -33,3 +33,17 @@ export async function updateUserProfile(
     console.error('Error updateing user profile', error);
   }
 }
+
+export async function getUser(
+  userId: string,
+): Promise<InstanceType<typeof User> | null> {
+  try {
+    const user = await User.findById(userId).populate('photos');
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  } catch (error) {
+    console.error('Error fetch user profile', error);
+  }
+}

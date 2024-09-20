@@ -1,7 +1,5 @@
 'use client';
 
-import { BreadcrumbCustom } from '@/components/ui.custom/Breadcrumb';
-import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselIndicator,
@@ -9,42 +7,42 @@ import {
   CarouselThumbsContainer,
   SliderMainItem,
 } from '@/components/ui/carousel.extras';
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 export default function ImageComponent({ images }: any) {
   return (
-    <>
+    <div className="relative w-full h-full">
       <Carousel className="w-full h-full">
-        <div className="flex">
-          <div className="">
+        <div className="flex flex-col">
+          <div className="flex-grow">
             <CarouselMainContainer>
               {Array.isArray(images) &&
                 images.map((image, index) => (
                   <SliderMainItem
                     key={index}
-                    className="bg-transparent items-center w-full flex justify-center  "
+                    className="bg-transparent w-full h-full"
                   >
-                    <div className="aspect-square ">
-                      <img
-                        src={image.url as string}
-                        className="rounded-lg object-contain  group-hover:opacity-50 transition-opacity"
-                      />
-                    </div>
+                    <img
+                      src={image}
+                      alt={`Product image ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg transition-opacity duration-300 ease-in-out group-hover:opacity-90"
+                    />
                   </SliderMainItem>
                 ))}
             </CarouselMainContainer>
           </div>
-          <div className="absolute bottom-20 left-1/2 -translate-x-1/2 ">
-            <CarouselThumbsContainer className="gap-x-1">
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4">
+            <CarouselThumbsContainer className="flex justify-center gap-2 overflow-x-auto py-2">
               {Array.isArray(images) &&
                 images.map((image, index) => (
-                  <CarouselIndicator key={index} index={index} />
+                  <CarouselIndicator 
+                    key={index} 
+                    index={index}
+                    className="w-3 h-3 rounded-full bg-white bg-opacity-50 transition-all duration-300 ease-in-out hover:bg-opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50"
+                  />
                 ))}
             </CarouselThumbsContainer>
           </div>
         </div>
       </Carousel>
-    </>
+    </div>
   );
 }
