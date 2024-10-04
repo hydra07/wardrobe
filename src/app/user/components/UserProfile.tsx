@@ -66,8 +66,13 @@ export default function UserProfile() {
     }
   };
 
-  const handleImageUpload = (urls: string[]) => {
-    form.setValue('photos', urls);
+  // const handleImageUpload = (urls: string[]) => {
+  //   form.setValue('photos', urls);
+  // };
+
+  const handleImageUpload = (urls: string[] | string) => {
+
+    Array.isArray(urls) && form.setValue('photos', urls);
   };
 
   return (
