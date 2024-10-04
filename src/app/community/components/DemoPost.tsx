@@ -67,7 +67,9 @@ export default function Post({ id, children }: any) {
     //     </AdminWrapper>
     // );
     return (
-        <PostPage post={post} children={children} />
+        <PostPage post={post}>
+            {children}
+        </PostPage>
     );
 }
 
