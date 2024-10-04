@@ -108,4 +108,13 @@ async function editCloth(
   return await cloth.save();
 }
 
-export { addCloth, editCloth, getClothes };
+async function deleteCloth(id: string, userId: string): Promise<boolean> {
+  const result = await Clothes.deleteOne({
+    _id: id,
+    userId: userId,
+  });
+
+  return result.deletedCount > 0;
+}
+
+export { addCloth, editCloth, getClothes, deleteCloth };

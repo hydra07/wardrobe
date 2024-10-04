@@ -6,6 +6,12 @@ import {
   UserIcon,
   UsersIcon,
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import Link from 'next/link';
 import AuthButton from './sidebar/auth-button';
 import { ThemeMode } from './ThemeMode';
@@ -51,14 +57,45 @@ export default function SideBar() {
               <BriefcaseIcon className="h-4 w-4" />
               Wardrobe Management
             </Link>
-            <Link
-              href="/community"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"
-              prefetch={false}
-            >
-              <UsersIcon className="h-4 w-4" />
-              Community
-            </Link>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className='flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground'>
+                  <UsersIcon className="h-4 w-4" />
+                  Community
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                // sideOffset={5}
+                align="end"
+                side="right"
+                className="bg-mainbackground border border-accent rounded-lg"
+              >
+                <Link
+                  href="/community"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"
+                  prefetch={false}
+                >
+                  All Posts
+                </Link>
+                <Link
+                  href="/community/add"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"
+                  prefetch={false}
+                >
+                  Add Post
+                </Link>
+
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {/*<Link*/}
+            {/*  href="/community"*/}
+            {/*  className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"*/}
+            {/*  prefetch={false}*/}
+            {/*>*/}
+            {/*  <UsersIcon className="h-4 w-4" />*/}
+            {/*  Community*/}
+            {/*</Link>*/}
             <Link
               href="/user"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-[#d14d62] transition-all hover:bg-accent hover:text-accent-foreground"

@@ -37,6 +37,7 @@ const urlToBase64 = async (url: string): Promise<string> => {
     if (!response.ok) {
       throw new Error(`Failed to fetch the URL: ${response.statusText}`);
     }
+    console.log(url);
     const blob = await response.blob();
     console.log(blob);
     return new Promise((resolve, reject) => {

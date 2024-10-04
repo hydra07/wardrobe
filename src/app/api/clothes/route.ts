@@ -1,5 +1,5 @@
 import roleRequire from '@/configs/middleware';
-import { addCloth, getClothes } from '@/services/clothes.service';
+import {addCloth, deleteCloth, getClothes} from '@/services/clothes.service';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = roleRequire(
@@ -54,6 +54,29 @@ export const POST = roleRequire(
       userId: userId,
       clothes: clothes,
     });
+  },
+  'user',
+);
+
+
+export const DELETE = roleRequire(
+  async (req: NextRequest): Promise<NextResponse> => {
+    const userId = req.headers.get('x-user-id');
+    const { id } = await req.json();
+    if (!userId) {
+      return NextResponse.json(
+        { status: 400, message: 'User ID is required' },
+        { status: 400 },
+      );
+    }
+    const isDeleted = await deleteCloth(id, userId);
+    if (!isDeleted) {
+      return NextResponse.json(
+        { status: 400, message: 'Cloth not found' },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json({ status: 200, message: 'Deleted' }, { status: 200 });
   },
   'user',
 );

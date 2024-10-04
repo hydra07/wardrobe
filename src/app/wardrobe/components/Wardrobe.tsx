@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+  DialogDescription, DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -42,7 +42,30 @@ import { toast } from 'react-toastify';
 import * as z from 'zod';
 import formSchema from './schema';
 import { ListTags, Tags } from './Tags';
+import {TrashIcon} from "lucide-react";
+import useAuth from "@/libs/hooks/useAuth";
 function Item({ item }: any) {
+  const {user} = useAuth();
+  const handleDelete = async () => {
+    try {
+      const token = user?.accessToken;
+      if (!token) {
+        throw new Error(
+          'Người dùng chưa đăng nhập hoặc không có thông tin phiên',
+        );
+      }
+      const response = await axiosWithAuth(token).delete(`/clothes/${item._id}`);
+      if (response.status === 200) {
+        toast.success(`${response.data.message}`);
+        console.log('Success:', response.data);
+      } else {
+        toast.error('Failed!');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -50,69 +73,87 @@ function Item({ item }: any) {
           <div onClick={(e) => e.stopPropagation()} className="aspect-square">
             <MultipleImage images={item.images} />
           </div>
-          <CardContent className="py-4">
-            <h3 className="font-semibold tracking-tight text-lg mb-2">
-              {item.title}
-            </h3>
-            <p className="text-sm leading-relaxed text-gray-600 line-clamp-2">
-              {item.description}
-            </p>
+          <CardContent className="py-4 flex justify-between items-center">
+            <div className="flex-grow text-center">
+              <h3 className="font-semibold tracking-tight text-lg mb-2">
+                {item.title}
+              </h3>
+              <p className="text-sm leading-relaxed text-gray-600 line-clamp-2">
+                {item.description}
+              </p>
+            </div>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="ml-auto" variant='ghost'>
+              <TrashIcon className="w-5 h-5"/>
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  Are you sure you want to delete this item?
+                </DialogHeader>
+                <DialogFooter>
+                  <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </CardContent>
           <div className="p-4">
             <ListTags tags={item.tags} />
           </div>
         </Card>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <ScrollArea className="w-full overflow-y-auto rounded-md max-h-[80vh]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold mb-4">
-              Edit cloth
-            </DialogTitle>
-            <DialogDescription className="space-y-6">
-              <div onClick={(e) => e.stopPropagation()} className="mb-4">
-                <MultipleImage images={item.images} />
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name
-                  </label>
-                  <Input
-                    placeholder="Add name for your cloth..."
-                    value={item.title}
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description
-                  </label>
-                  <Textarea
-                    placeholder="Add description for your cloth..."
-                    className="w-full min-h-[100px]"
-                    value={item.description}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Add tags
-                  </label>
-                  <Tags />
-                </div>
-                <div className="flex justify-center items-center space-x-4 pt-4">
-                  <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2">
-                    Submit
-                  </Button>
-                  <Button variant="destructive" className="px-6 py-2">
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </ScrollArea>
-      </DialogContent>
+      {/*<DialogContent className="sm:max-w-[425px]">*/}
+      {/*  <ScrollArea className="w-full overflow-y-auto rounded-md max-h-[80vh]">*/}
+      {/*    <DialogHeader>*/}
+      {/*      <DialogTitle className="text-2xl font-bold mb-4">*/}
+      {/*        Edit cloth*/}
+      {/*      </DialogTitle>*/}
+      {/*      <DialogDescription className="space-y-6">*/}
+      {/*        <div onClick={(e) => e.stopPropagation()} className="mb-4">*/}
+      {/*          <MultipleImage images={item.images} />*/}
+      {/*        </div>*/}
+      {/*        <div className="space-y-4">*/}
+      {/*          <div>*/}
+      {/*            <label className="block text-sm font-medium text-gray-700 mb-1">*/}
+      {/*              Name*/}
+      {/*            </label>*/}
+      {/*            <Input*/}
+      {/*              placeholder="Add name for your cloth..."*/}
+      {/*              value={item.title}*/}
+      {/*              className="w-full"*/}
+      {/*            />*/}
+      {/*          </div>*/}
+      {/*          <div>*/}
+      {/*            <label className="block text-sm font-medium text-gray-700 mb-1">*/}
+      {/*              Description*/}
+      {/*            </label>*/}
+      {/*            <Textarea*/}
+      {/*              placeholder="Add description for your cloth..."*/}
+      {/*              className="w-full min-h-[100px]"*/}
+      {/*              value={item.description}*/}
+      {/*            />*/}
+      {/*          </div>*/}
+      {/*          <div>*/}
+      {/*            <label className="block text-sm font-medium text-gray-700 mb-1">*/}
+      {/*              Add tags*/}
+      {/*            </label>*/}
+      {/*            <Tags />*/}
+      {/*          </div>*/}
+      {/*          <div className="flex justify-center items-center space-x-4 pt-4">*/}
+      {/*            <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2">*/}
+      {/*              Submit*/}
+      {/*            </Button>*/}
+      {/*            <Button variant="destructive" className="px-6 py-2">*/}
+      {/*              Cancel*/}
+      {/*            </Button>*/}
+      {/*          </div>*/}
+      {/*        </div>*/}
+      {/*      </DialogDescription>*/}
+      {/*    </DialogHeader>*/}
+      {/*  </ScrollArea>*/}
+      {/*</DialogContent>*/}
     </Dialog>
   );
 }
@@ -213,8 +254,9 @@ export function ClothForm() {
       console.error('Error:', error);
     }
   };
-  const handleImageUpload = (urls: string[]) => {
-    form.setValue('images', urls);
+  const handleImageUpload = (urls: string[] | string) => {
+
+    Array.isArray(urls) && form.setValue('images', urls);
   };
   const handleTagsChange = async (tags: any[]) => {
     // console.log('tags', tags);

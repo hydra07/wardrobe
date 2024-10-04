@@ -16,15 +16,17 @@ import { toast } from 'react-toastify';
 import { Button } from '../ui/button';
 
 interface FileUploadDropzoneProps {
-  onImageUpload: (urls: string[]) => void;
+  onImageUpload: (urls: string[] | string) => void;
   onClear?: () => void;
   imageOptions?: ImageUploadOptions;
+  maxFiles?: number;
 }
 
 const FileUploadDropzone = ({
   onImageUpload,
   onClear,
   imageOptions,
+    maxFiles,
 }: FileUploadDropzoneProps) => {
   const [files, setFiles] = useState<File[] | null>([]);
 
@@ -44,7 +46,7 @@ const FileUploadDropzone = ({
     },
     multiple: true,
     // multiple: false,
-    maxFiles: 4,
+    maxFiles: maxFiles || 4,
     maxSize: 1 * 1024 * 1024,
   } satisfies DropzoneOptions;
 

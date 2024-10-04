@@ -3,7 +3,7 @@ import console from 'console';
 import { NextRequest, NextResponse } from 'next/server';
 
 type Handler<T> = T extends { req: infer R }
-  ? (req: R) => Promise<NextResponse>
+  ? (req: R, params:any) => Promise<NextResponse>
   : never;
 
 /**
@@ -58,10 +58,10 @@ async function authMiddleware(
  * @returns response
  */
 export default function roleRequire(
-  handler: Handler<{ req: NextRequest }>,
+  handler: Handler<{ req: NextRequest,params:any }>,
   role?: string | null,
-): (req: NextRequest) => Promise<NextResponse> {
-  return async function (req: NextRequest): Promise<NextResponse> {
+): (req: NextRequest,params:any) => Promise<NextResponse> {
+  return async function (req: NextRequest,params:any): Promise<NextResponse> {
     try {
       const authResult = await authMiddleware(req);
       if (authResult instanceof NextRequest) {
@@ -71,7 +71,7 @@ export default function roleRequire(
             return new NextResponse('Forbidden', { status: 403 });
           }
         }
-        return await handler(authResult);
+        return await handler(authResult,params);
       } else {
         return authResult;
       }

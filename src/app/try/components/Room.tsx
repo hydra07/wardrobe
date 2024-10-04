@@ -94,24 +94,24 @@ export function Item({ name, description, image, listImage, action }: any) {
       <CardContent className="p-0">
         <button onClick={action} className="w-full text-left">
           {Array.isArray(listImage) ? (
-            <img
-              src={listImage[0].url}
-              alt="Product thumbnail"
-              className="w-full aspect-[4/3] object-cover"
-            />
+              <img
+                  src={listImage[0].url}
+                  alt="Product thumbnail"
+                  className="w-full aspect-[4/3] object-cover"
+              />
           ) : (
-            <img
-              src={image}
-              alt="Product thumbnail"
-              className="w-full aspect-[4/3] object-cover"
-            />
+              <img
+                  src={image}
+                  alt="Product thumbnail"
+                  className="w-full aspect-[4/3] object-cover"
+              />
           )}
           <div className="p-3 bg-muted">
             <h3 className="font-medium text-sm truncate">{name}</h3>
             {description && (
-              <p className="text-xs text-muted-foreground mt-1 truncate">
-                {description}
-              </p>
+                <p className="text-xs text-muted-foreground mt-1 truncate">
+                  {description}
+                </p>
             )}
           </div>
         </button>
@@ -120,28 +120,31 @@ export function Item({ name, description, image, listImage, action }: any) {
   );
 }
 
-export function MainImage({ item }: any) {
+export function MainImage({item}: any) {
+  // console.log(JSON.stringify(item));
   return (
-    <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden">
+      <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden">
       {item ? (
         <img
-          src={item.image}
+          src={item.image ?? item}
           alt="Main product image"
           width={800}
           height={600}
           className="object-contain w-full h-full"
         />
       ) : (
-        <p>No item selected</p>
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <p className="text-lg font-semibold">No item selected</p>
+          </div>
       )}
-    </div>
+      </div>
   );
 }
 
 export function TryOnLoading() {
   return (
-    <div className="aspect-[4/3] ">
-      <div className="flex flex-col space-y-2">
+      <div className="aspect-[4/3] ">
+        <div className="flex flex-col space-y-2">
         <div className="flex flex-col h-full space-y-3">
           <Skeleton className="h-[125px] w-full rounded-xl" />
           <div className="space-y-2">
@@ -166,7 +169,11 @@ export default function Room() {
   const [selectedItem, setSelectedItem] = useState<{
     name: string;
     description: string;
-    image: string;
+    image?: string;
+    images?: [{
+      _id: string;
+      url: string;
+    }]
   } | null>(null);
   const [isSuggestion, setIsSuggestion] = useState<boolean>(true);
   const { selectedFeed, setSelectedFeed } = useSuggestion();
@@ -177,6 +184,7 @@ export default function Room() {
   const [result, setResult] = useState<any>(null);
   // setSelectedFeed(null);
   const handleSelect = (item: any) => {
+    console.log(item)
     setSelectedItem(item);
     setResult(null);
     // setLoading(true);
@@ -227,7 +235,7 @@ export default function Room() {
                 item={
                   result
                     ? { image: `data:image/png;base64,${result.image}` }
-                    : selectedItem
+                    : Array.isArray(selectedItem?.images) ? selectedItem.images[0].url : selectedItem
                 }
               />
             )}
@@ -276,7 +284,7 @@ export default function Room() {
                         <Item
                           key={itemIndex}
                           action={() => handleSelect(item)}
-                          name={item.name}
+                          name={item.title}
                           description={item.description}
                           listImage={item.images}
                         />
@@ -296,7 +304,7 @@ export default function Room() {
             isSuggestion={isSuggestion}
             setIsSuggestion={setIsSuggestion}
             user={userProfile}
-            clothImage={selectedItem?.image}
+            clothImage={selectedItem?.image ?? (selectedItem?.images ? selectedItem.images[0].url : undefined)}
             setLoading={setLoading}
             setResult={setResult}
           />
