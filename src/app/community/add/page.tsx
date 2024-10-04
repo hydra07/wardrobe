@@ -14,7 +14,6 @@ export default function AddPost() {
         <UserWrapper>
             <div className="">
                 <FormPost user={user} />
-                <ToastContainer />
             </div>
         </UserWrapper>
         </main>

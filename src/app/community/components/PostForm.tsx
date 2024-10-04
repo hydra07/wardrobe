@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -27,7 +28,7 @@ import { useForm } from "react-hook-form";
 //     </Dialog>
 //   );
 // }
-import Editor from "@/components/Editor";
+// import Editor from "@/components/Editor";
 // import useUploadFile from "@/hooks/useUploadFile";
 import { toast } from "react-toastify";
 import FileUploadDropzone from "@/components/ui.custom/FileUpload";
@@ -36,7 +37,8 @@ import useAuth from "@/libs/hooks/useAuth";
 import * as z from "zod";
 import formSchema from "@/app/community/add/schema";
 import {zodResolver} from "@hookform/resolvers/zod";
-
+import dynamic from "next/dynamic";
+const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
 const imageOptions: ImageUploadOptions = {
     type: 'other',
     onModel: 'User',
@@ -76,7 +78,7 @@ export default function FormPost({ user }: any): ReactNode {
             form.setValue('image', urls);
         }
     };
-    // const Editor = dynamic(() => import('@/components/Editor'), { ssr: false });
+
     return (
         <Form {...form}>
             <form
