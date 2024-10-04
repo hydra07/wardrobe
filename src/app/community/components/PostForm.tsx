@@ -78,7 +78,7 @@ export default function FormPost({ user }: any): ReactNode {
             form.setValue('image', urls);
         }
     };
-
+    //
     return (
         <Form {...form}>
             <form
