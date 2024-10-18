@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const DynamicCommunity = () => {
     const searchParams = useSearchParams();
-    const tag = searchParams.get('tag');
+    // const tag = searchParams.get('tag');
     const page = Number(searchParams.get('page') ?? 1);
     return <ListPost page={page !== 0 ? page : 1} />;
 };

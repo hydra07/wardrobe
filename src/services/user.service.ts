@@ -47,3 +47,28 @@ export async function getUser(
     console.error('Error fetch user profile', error);
   }
 }
+
+export async function upgradeUserToPremium(
+  userId: string,
+): Promise<InstanceType<typeof User> | null> {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    if (!user.role) {
+      user.role = [];
+    }
+    if (!user.role.includes('premium')) {
+      user.role.push('premium'); // Thêm 'premium' vào mảng role
+    }
+    const status = {
+      isPremium: false,
+      premiumExpiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Thêm 30 ngày
+    };
+    user.premiumStatus = status;
+    return User.updateOne({ _id: user._id }, user);
+  } catch (error: any) {
+    console.log(error);
+  }
+}

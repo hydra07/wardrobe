@@ -11,6 +11,7 @@
   "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@payos/node": "^1.0.10",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -50,6 +51,7 @@
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^1.6.12",
     "path": "^0.12.7",
+    "payos-checkout": "^1.0.9",
     "quill-image-resize-module-react": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",

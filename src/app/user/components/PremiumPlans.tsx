@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -7,9 +8,40 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { axiosWithAuth } from '@/libs/axios';
+import useAuth from '@/libs/hooks/useAuth';
 import { Check, X } from 'lucide-react';
+import { useState } from 'react';
 
 export default function PremiumPlans() {
+  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
+  const handlePayment = async () => {
+    setIsLoading(true);
+    try {
+      const token = user?.accessToken;
+      if (!token) {
+        throw new Error(
+          'Người dùng chưa đăng nhập hoặc không có thông tin phiên',
+        );
+      }
+      const response = await axiosWithAuth(token).post('/payment', {
+        responseType: 'text',
+        maxRedirects: 0,
+      });
+
+      if (response.data !== 'error') {
+        window.location.href = response.data;
+      } else {
+        alert('Payment initiation failed. Please try again.');
+      }
+    } catch (error: any) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const plans = [
     {
       name: 'Free',
@@ -24,7 +56,7 @@ export default function PremiumPlans() {
     },
     {
       name: 'Premium',
-      price: '59.000 đ/month',
+      price: '20.000 đ/month',
       features: [
         { name: 'Full access', included: true },
         { name: 'Unlimited storage', included: true },
@@ -63,8 +95,19 @@ export default function PremiumPlans() {
             <Button
               className="w-full"
               variant={plan.name === 'Premium' ? 'default' : 'outline'}
+              disabled={
+                plan.name === 'Premium' && user?.role.includes('premium')
+              }
+              onClick={plan.name === 'Premium' ? handlePayment : undefined}
             >
-              {plan.name === 'Free' ? 'Current Plan' : 'Upgrade to Premium'}
+              {plan.name === 'Free'
+                ? user?.role.includes('premium')
+                  ? 'Free Plan'
+                  : 'Current Plan'
+                : user?.role.includes('premium')
+                ? 'Current Plan'
+                : 'Upgrade to Premium'}
+              {/* {plan.name === 'Free' ? 'Current Plan' : 'Upgrade to Premium'} */}
             </Button>
           </CardFooter>
         </Card>
