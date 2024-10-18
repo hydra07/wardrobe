@@ -1,14 +1,24 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import UserWrapper from '@/components/UserWrapper';
 import { axiosWithAuth } from '@/libs/axios';
 import useAuth from '@/libs/hooks/useAuth';
 import { AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
 // import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-
+import { Suspense, useCallback, useEffect, useState } from 'react';
 export default function ResultPayment() {
+  return (
+    <UserWrapper>
+      <Suspense fallback={<></>}>
+        <DynamicResultPayment />
+      </Suspense>
+    </UserWrapper>
+  );
+}
+
+function DynamicResultPayment() {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [countdown, setCountdown] = useState(5);
