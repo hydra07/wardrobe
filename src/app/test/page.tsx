@@ -45,7 +45,6 @@
 //   );
 // };
 
-// export default Test;
 
 const Test = () => {
   return (
@@ -54,3 +53,4 @@ const Test = () => {
     </div>
   );
 };
+export default Test;
