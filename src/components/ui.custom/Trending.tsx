@@ -23,17 +23,21 @@ export default function TrendingCarousel() {
           carouselOptions={{
             loop: true,
           }}
+          className=""
         >
           <CarouselNext />
           <CarouselPrevious />
           <div className="relative ">
-            <CarouselMainContainer className="h-60">
+            <CarouselMainContainer className="h-[570px]">
               {Array.from({ length: 5 }).map((_, index) => (
                 <SliderMainItem
                   key={index}
-                  className="bg-transparent items-center flex"
+                  className="bg-transparent flex w-full h-full"
                 >
-                  <img src="./trending2.jpg" className="object-center mt-14 " />
+                  <img
+                    src="trending-panel2.png"
+                    className="object-cover mt-14 "
+                  />
                   {/*<div className="outline outline-1 outline-border size-full flex items-center justify-center rounded-xl bg-background">*/}
                   {/*  Slide {index + 1}*/}
                   {/*</div>*/}

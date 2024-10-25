@@ -56,7 +56,7 @@ export default function PremiumPlans() {
     },
     {
       name: 'Premium',
-      price: '20.000 đ/month',
+      price: '49.000 đ/month',
       features: [
         { name: 'Full access', included: true },
         { name: 'Unlimited storage', included: true },

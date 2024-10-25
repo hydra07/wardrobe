@@ -47,13 +47,13 @@ export default async function payment(userId: string) {
 
   const body = {
     orderCode: order.orderCode,
-    amount: 20000,
+    amount: 49000,
     description: 'Thanh toan don hang',
     items: [
       {
         name: `Premium 1 month`,
         quantity: 1,
-        price: 20000,
+        price: 49000,
       },
     ],
     returnUrl: `${process.env.NEXT_PUBLIC_BASE_URL as string}/resultPayment`,
